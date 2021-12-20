@@ -323,7 +323,7 @@ function AddMovie({name,setname,poster,setposter,year,setyear,genre,setgenre,sum
 }
 
 function ShowMovies({movielist,setmovielist}) {
-  console.log("show movies");
+  console.log("show movies-router");
 console.log(movielist)
   return (
    <div>

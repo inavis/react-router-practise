@@ -3,23 +3,15 @@ import './App.css';
 import { useState } from 'react';
 
 import * as React from 'react';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NavigationIcon from '@mui/icons-material/Navigation';
-import ClearIcon from '@mui/icons-material/Clear';
-import Chip from '@mui/material/Chip';
 
 import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, CardActions } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -29,19 +21,13 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Badge from '@mui/material/Badge';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
-import Tooltip from '@mui/material/Tooltip';
-import Fade from '@mui/material/Fade';
 
-import TextField from '@mui/material/TextField';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -51,8 +37,13 @@ import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 
 
-
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link,Redirect, useHistory } from "react-router-dom";
+import { MovieDetails } from './MovieDetails';
+import { AddMovie } from './AddMovie';
+import { NotExist } from './NotExist';
+import { ShowMovies } from './ShowMovies';
+import { Welcome } from './Welcome';
+import { GetColor } from './GetColor';
 
  function App() {
 
@@ -63,6 +54,7 @@ import { Switch, Route, Link } from "react-router-dom";
   const [genre,setgenre] = useState("");
   const [summary,setsummary] = useState("");
   const [imdb,setimdb] = useState("");
+  const [trailer,settrailer] = useState("");
 
   const [movielist ,setmovielist]=useState([ {
        name: "Toy Story 3",
@@ -73,7 +65,7 @@ import { Switch, Route, Link } from "react-router-dom";
       year: "2021",
       genre: ["Animation,Comedy"],
       imdb: "8.2",
-      
+      trailer:"https://www.youtube.com/embed/ZZv1vki4ou4"
     },
     {
       name: "Venom",
@@ -84,12 +76,14 @@ import { Switch, Route, Link } from "react-router-dom";
       year: "2018",
       genre:["Superhero"],
       imdb: "6.7",
+      trailer:"https://www.youtube.com/embed/dzxFdtWmjto"
     },
   ]);
 
   //for nav bar using material design
   const pages = ['Welcome', 'show movies', 'add movie', 'color game'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const history2 = useHistory();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -155,7 +149,8 @@ import { Switch, Route, Link } from "react-router-dom";
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link to={"/"+page.split(' ').join('')} className='link'>{page}</Link>
+                  {/* <Link to={"/"+page.split(' ').join('')} className='link'>{page}</Link> */}
+                  <button onClick={()=>{history2.push({page}.split(' ').join(''))}}> {page}</button>
                   </Typography>
                 </MenuItem>
               ))}
@@ -225,6 +220,10 @@ import { Switch, Route, Link } from "react-router-dom";
           */}
         <Switch>
           {/* Each route is case, eg. - case '/about': */}
+          <Route path="/showfilms">
+            <Redirect to="/ShowMovies"/>
+          </Route>
+
           <Route path="/Welcome">
             <Welcome/>
           </Route>
@@ -246,6 +245,8 @@ import { Switch, Route, Link } from "react-router-dom";
               setsummary={setsummary}
               imdb ={imdb}
               setimdb={setimdb}
+              trailer={trailer}
+              settrailer={settrailer}
               movielist ={movielist}
               setmovielist={setmovielist}
             />
@@ -256,6 +257,19 @@ import { Switch, Route, Link } from "react-router-dom";
               setmovielist = {setmovielist}
               />
           </Route>
+
+          <Route path="/movies/:id">
+            <MovieDetails movielist={movielist}/>
+          </Route>
+
+          <Route exact path="/">
+            <Welcome/>
+          </Route>
+          
+          {/* For broken or links that does not exist */}
+          <Route path="**">
+            <NotExist/>
+          </Route>
         </Switch>
       </div>
     
@@ -264,224 +278,3 @@ import { Switch, Route, Link } from "react-router-dom";
 
 export default App;
 
-
-
-function Home() {
-  return (
-    <div>
-      <h2>Home, Welcome All!!!</h2>
-      {/* <TableComp /> */}
-    </div>
-  );
-}
-
-function AddMovie({name,setname,poster,setposter,year,setyear,genre,setgenre,summary,setsummary,imdb,setimdb,movielist,setmovielist}) {
-  return (
-     
-      <div   className='form'>
-      <br></br>
-      <div className='formhead text-primary'>ADD MOVIE DETAILS</div>
-        <div>
-        <TextField id="filled-basic"  className="textbox" label="Movie Name" variant="filled" onChange={(event)=>setname(event.target.value)} />
-        </div>
-        <br></br>
-        <div>
-        <TextField id="filled-basic"  className="textbox" label="Poster URL" variant="filled"  onChange={(event)=>setposter(event.target.value)}/>
-        </div>
-        <br></br>
-        <div> 
-        <TextField id="filled-basic"    className="textbox" label="Release year" variant="filled"  onChange={(event)=>setyear(event.target.value)} />
-        </div>
-        <br></br>
-        <div>
-        <TextField id="filled-basic"    className="textbox"  label="Genre" variant="filled" onChange={(event)=>setgenre(event.target.value)} />
-        </div>
-        <br></br>
-        <div>
-        <TextField id="filled-basic"    className="textbox" label="IMDB rating" variant="filled" onChange={(event)=>setimdb(event.target.value)} />
-        </div>
-        <br></br>
-        <div>
-        <TextField id="filled-basic"   className="textbox" label="Movie Summary" variant="filled"  onChange={(event)=>setsummary(event.target.value)}/>
-        <br></br>
-        </div>
-        <div>
-          <br></br>
-        <Button variant="contained"  onClick={()=>
-        { 
-          
-          setmovielist([...movielist,{name:name,poster:poster,year:year,genre:genre,summary:summary,imdb:imdb}])}
-  
-        }>ADD MOVIE</Button>
-        <br></br>
-        </div>
-        <br></br>
-     </div>
-
-       
-  );
-}
-
-function ShowMovies({movielist,setmovielist}) {
-  console.log("show movies-router");
-console.log(movielist)
-  return (
-   <div>
-     <div>Movies</div>
-     <div className='content'>
-      {
-    
-     movielist.map(({ name, poster, summary, year, genre, imdb },index)=>(
-  
-      <Movie
-      // Passing JSX along with other details
-
-      deletebutton = {
-        <Fab color="error" aria-label="add" onClick={()=>{
-          const deleteindex=index;
-          setmovielist(movielist.filter((mv,ind)=>ind!==deleteindex))
-        }}>
-                <ClearIcon/>
-        </Fab>
-      }
-
-      name={name}
-
-      poster={poster}
-
-      summary={summary}
-
-      year={year}
-
-      genre={genre}
-
-      imdb={imdb}
-
-     
-    />
-     ))
-
-   }
-    </div>
-   </div>
-  );
-}
-
-
-function Welcome() {
- // alert("welcome")
-  return (
-    <div style={{color:"white"}}>
-      <h1>Welcome to Movie Website</h1>
-    </div>
-  );
-}
-
-function Movie({deletebutton, name, poster, summary, year, genre, imdb}) {
-
-    //style for summary display:none/block
-    const [show,setshow] = useState(false);
-    const summarystyle = {display:show?"block":"none"}
-    const summaryhead = (show)?(<span>Summary <ExpandLessIcon/></span>):(<span>Summary <ExpandMoreIcon/></span>);
-  
-    //variable for likes
-    const [likes,setlikes] = useState(0);
-
-  return (
-    <Card sx={{ width: 300 ,backgroundColor:"#212121" ,color:"white"}}>
-      <CardContent>
-        <Typography style={{textAlign:"center"}}>
-          {<h3>{name}</h3>}
-        </Typography>
-      </CardContent>
-
-      {/* uses chip to display year,genre,imdb */}
-      <CardContent>
-      <Stack direction="row" spacing={1}>
-          <Chip label={year} color="primary" variant="outlined" />
-          <Chip label={genre} color="primary" variant="outlined" />
-          <Chip label={"⭐"+imdb} color="success" variant="outlined" />
-        </Stack>
-      </CardContent>
-      
-      {/* display the movie poster using CardMedia */}
-      <CardMedia
-        component="img"
-        height="300"
-        image={poster}
-        alt={name}
-      />
-    
-        {/* Display summary when button is clicked */}
-        <CardContent>
-          {/* <Typography paragraph onClick={()=>{setshow(!show);}}>Summary <ExpandMoreIcon/></Typography> */}
-         <div style={{textAlign:"center"}}>
-         <Button variant="outlined" onClick={()=>{setshow(!show);}}>{summaryhead} </Button>
-         </div>
-           <br></br>
-          <Typography paragraph style={summarystyle}>
-            {summary} 
-          </Typography>
-          
-        </CardContent>
-    
-  
-        {/* //have 2 buttons-delete(movie gets deleted) and like(shows count with bagde) with tooltip */}
-  <CardContent>
-  <div className='material-head'>
-            <div>
-            <Tooltip title="delete movie" TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}>
-                {deletebutton }
-            </Tooltip>
-            </div>
-            <div>
-            <Tooltip title="Like Movie">
-              <Fab color="error" aria-label="like"  onClick={()=>setlikes(likes+1)} >
-                  <Badge color="primary" badgeContent={likes} max={30}>
-                      <FavoriteBorderIcon/>
-                  </Badge>      
-                </Fab>
-            </Tooltip>
-            
-            </div>
-          </div>
-  </CardContent>
-       
-    </Card>
-  );
- }
-
- //////////////////////////////////////////////////////
-
- function GetColor(){
-  const [color,setcolor]=useState("white");
-  const [colorlist,setcolorlist] = useState(["red","blue"])
-  //console.log(colorlist)
-  const style1={background:color}
-  return (
-      <div style={{textAlign:"center",padding:"10px"}} className='form'>
-        <div>
-        <TextField id="filled-basic" color='primary' style={style1} className="textbox" label="Enter a color to be added" variant="filled" onChange={(event) =>setcolor(event.target.value)}/>
-        </div>
-        <Button variant="contained" color="primary" onClick={()=>setcolorlist([...colorlist,color])}>ADD COLOUR</Button>
-
-        {
-            colorlist.map((color)=>(
-                
-              <ColorRectange color={color}/>
-            ))
-        }
-      </div>
-      
-    );
-}
-
-function ColorRectange({color}){
-// console.log(color)
-  const style = {height:"100px",width:"95%",margin:"15px",background:color}
-  return(
-      <div style={{textAlign:"center"}}>
-        <div style={style}></div>
-      </div>
-  )
-}

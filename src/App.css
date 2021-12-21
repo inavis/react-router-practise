@@ -115,3 +115,16 @@ button{
   text-decoration: none;
   color: white;
 }
+
+.errorimage{
+  width: 100%;
+  height: min-content;
+}
+
+.movieDetails{
+    color: white;
+    /* font-weight: bold; */
+    font-size: x-large;
+    background-color: black;
+    padding: 20px;
+}

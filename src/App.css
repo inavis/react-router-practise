@@ -128,3 +128,48 @@ button{
     background-color: black;
     padding: 20px;
 }
+
+.board{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  /* so that it is of same size even when reposnive */
+  max-width: max-content; 
+  /* margin: 2% 28%; */
+  background-color: black;
+}
+.gamebox{
+  margin: 3px;
+  height: 150px;
+  width: 150px;
+  border: 2px solid white;
+  text-align: center;
+ font-size: 90px;
+ cursor: pointer;
+ background-color: black;
+}
+.gamebox:hover{
+  background-color: rgb(194, 194, 194);
+  opacity: 50%;
+}
+.gamebg{
+  background-color: rgb(163, 126, 71);
+}
+.gameArea{
+  text-align: center;
+}
+
+@media (max-width:500px){
+  .board{
+    margin: 2% 10%;
+  }
+}
+@media (min-width:501px) and (max-width:1000px){
+  .board{
+    margin: 2% 16%;
+  }
+}
+@media (min-width:1000px){
+  .board{
+    margin: 2% 33%;
+  }
+}

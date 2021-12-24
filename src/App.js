@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 import * as React from 'react';
 import Button from '@mui/material/Button';
@@ -35,6 +35,8 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+
 
 
 import { Switch, Route, Link,Redirect, useHistory } from "react-router-dom";
@@ -67,29 +69,16 @@ function MyApp() {
   const [imdb,setimdb] = useState("");
   const [trailer,settrailer] = useState("");
 
-  const [movielist ,setmovielist]=useState([ {
-       name: "Toy Story 3",
-      poster:
-        "https://m.media-amazon.com/images/M/MV5BNWM2YTFkODItNTAyZC00ZGYwLTkwYmMtMDZlODc2MTViYjI4XkEyXkFqcGdeQXVyODY0NzcxNw@@._V1_.jpg",
-      summary:
-        "The toys are mistakenly delivered to a day-care center instead of the attic right before Andy leaves for college, and it's up to Woody to convince the other toys that they weren't abandoned and to return home.",
-      year: "2021",
-      genre: ["Animation,Comedy"],
-      imdb: "8.2",
-      trailer:"https://www.youtube.com/embed/ZZv1vki4ou4"
-    },
-    {
-      name: "Venom",
-      poster:
-        "https://c4.wallpaperflare.com/wallpaper/266/85/309/venom-wallpaper-preview.jpg",
-      summary:
-        "A reporter battles a mad scientist in a fight for his life merging with a snarking alien symbiote that gives him remarkable superpowers",
-      year: "2018",
-      genre:["Superhero"],
-      imdb: "6.7",
-      trailer:"https://www.youtube.com/embed/dzxFdtWmjto"
-    },
-  ]);
+  const [movielist ,setmovielist]=useState([]);
+
+  useEffect(()=>{
+    console.log("use Effect");
+    fetch("https://61c4136bf1af4a0017d99289.mockapi.io/movies",{
+      method:"GET"
+    })
+    .then((data)=>data.json())
+    .then((movies)=>setmovielist(movies))
+  },[])
 
   //for nav bar using material design
   const pages = ['Welcome', 'show movies', 'add movie', 'color game', 'xo game'];
@@ -116,8 +105,9 @@ const history2 = useHistory();
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
   return (
-    <Box
-      sx={{bgcolor: 'background.default', color: 'text.primary',height:"4000px"}}
+    // Or can use Box instead of Paper
+    <Paper elevation={3}
+      sx={{bgcolor: 'background.default', color: 'text.primary',minHeight:"300vh",borderRadius:"0px"}}
     >
       <div>
        
@@ -201,7 +191,7 @@ const history2 = useHistory();
        </Switch>
      </div>
    
-    </Box>
+    </Paper>
   );
 }
 

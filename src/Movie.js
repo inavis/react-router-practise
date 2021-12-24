@@ -18,7 +18,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { useHistory } from "react-router-dom";
 
 
-export function Movie({ deletebutton, name, poster, summary, year, genre, imdb, index }) {
+export function Movie({ deletebutton, name, poster, summary, year, genre, imdb, id }) {
 
   //style for summary display:none/block
   const [show, setshow] = useState(false);
@@ -31,13 +31,13 @@ export function Movie({ deletebutton, name, poster, summary, year, genre, imdb, 
   const history = useHistory();
 
   return (
-    <Card sx={{ width: 300, backgroundColor: "#212121", color: "white" }}>
+    <Card sx={{ width: 300}}>
       <CardContent>
         <Typography style={{ textAlign: "center" }}>
           {<h3>{name}</h3>}
 
           <IconButton color="primary" aria-label="show movie details" onClick={(e) => {
-            history.push(`/movies/${index}`);
+            history.push(`/movies/${id}`);
           }}>
             <InfoIcon />
           </IconButton>

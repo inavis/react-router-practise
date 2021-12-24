@@ -6,9 +6,9 @@ import { useHistory, useParams } from "react-router-dom";
 export function MovieDetails({ movielist }) {
   const history = useHistory();
   const { id } = useParams();
-  // let find = movielist.filter((ele,ind)=>(ind==id))  //here use find[0].details
-  let find = movielist[id];
-  console.log(movielist[id]);
+  let find = movielist.filter((ele)=>(ele.id==id))  //here use find[0].details
+  // let find = movielist[id];
+  // console.log(movielist[id]);
   // or can have movielist[{id}] in a simple way as array index is same as 
   // console.log(find[0].trailer)
   return (
@@ -19,15 +19,15 @@ export function MovieDetails({ movielist }) {
         <iframe
           width="99%"
           height="500"
-          src={find.trailer}
+          src={find[0].trailer}
           title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
 
         </iframe>
       </div>
-      <div><span style={{ float: "left" }, { padding: "20px" }}>{find.name}</span> <span style={{ float: "right" }, { padding: "20px" }}>{"⭐" + find.imdb}</span></div>
+      <div><span style={{ float: "left" }, { padding: "20px" }}>{find[0].name}</span> <span style={{ float: "right" }, { padding: "20px" }}>{"⭐" + find[0].imdb}</span></div>
       <br></br><br></br>
-      <div>{find.summary}</div>
+      <div>{find[0].summary}</div>
       <br></br>
       <div>
         <Button variant="outlined" color="error" startIcon={<ArrowBackIosIcon />} onClick={() => { history.goBack(); }}>

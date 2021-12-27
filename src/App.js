@@ -53,6 +53,7 @@ import { XOGAME } from './XOGAME';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { EditMovies } from './EditMovies';
 
 
 
@@ -71,14 +72,6 @@ function MyApp() {
 
   const [movielist ,setmovielist]=useState([]);
 
-  useEffect(()=>{
-    console.log("use Effect");
-    fetch("https://61c4136bf1af4a0017d99289.mockapi.io/movies",{
-      method:"GET"
-    })
-    .then((data)=>data.json())
-    .then((movies)=>setmovielist(movies))
-  },[])
 
   //for nav bar using material design
   const pages = ['Welcome', 'show movies', 'add movie', 'color game', 'xo game'];
@@ -173,7 +166,11 @@ const history2 = useHistory();
          </Route>
 
          <Route path="/movies/:id">
-           <MovieDetails movielist={movielist}/>
+           <MovieDetails/>
+         </Route>
+
+         <Route path="/EditMovies/:id">
+           <EditMovies/>
          </Route>
 
          <Route path="/xogame">
@@ -236,4 +233,5 @@ export  function ToggleColorMode() {
 }
 
 export default App;
+
 

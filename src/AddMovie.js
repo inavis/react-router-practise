@@ -6,6 +6,27 @@ import { useHistory } from "react-router-dom";
 export function AddMovie({ name, setname, poster, setposter, year, setyear, genre, setgenre, summary, setsummary, imdb, setimdb, trailer, settrailer, movielist, setmovielist }) {
   const history = useHistory();
 
+  const addmovie =() =>{
+    const newMovie ={
+      name,
+      poster,
+      year,
+      genre,
+      summary,
+      imdb,
+      trailer
+    };
+    fetch(`https://61c4136bf1af4a0017d99289.mockapi.io/movies/`,{
+      method:"POST",
+      body: JSON.stringify(newMovie),
+      headers:{
+        "Content-Type":"application/json"
+      }
+    })
+    .then((data)=>data.json())
+    .then(()=>history.push("/ShowMovies"))
+  }
+
   return (
 
     <div className='form'>
@@ -44,8 +65,9 @@ export function AddMovie({ name, setname, poster, setposter, year, setyear, genr
         <br></br>
         <Button variant="contained" onClick={() => {
 
-          setmovielist([...movielist, { name: name, poster: poster, year: year, genre: genre, summary: summary, imdb: imdb, trailer: trailer }]);
-          history.push("/ShowMovies");
+          // setmovielist([...movielist, { name: name, poster: poster, year: year, genre: genre, summary: summary, imdb: imdb, trailer: trailer }]);
+          // history.push("/ShowMovies");
+          addmovie();
         }}>ADD MOVIE</Button>
         <br></br>
       </div>

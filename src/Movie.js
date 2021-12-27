@@ -15,6 +15,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Fade from '@mui/material/Fade';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
+import Button from '@mui/material/Button';
 import { useHistory } from "react-router-dom";
 
 
@@ -32,17 +34,21 @@ export function Movie({ deletebutton, name, poster, summary, year, genre, imdb, 
 
   return (
     <Card sx={{ width: 300}}>
-      <CardContent>
-        <Typography style={{ textAlign: "center" }}>
+   
+        <Typography >
+          <div style={{display:"flex",flexDirection:"row"}}>
+          <div style={{width:"75%",margin:"1%",textAlign:"center",paddingTop:"5px"}}>
           {<h3>{name}</h3>}
-
-          <IconButton color="primary" aria-label="show movie details" onClick={(e) => {
-            history.push(`/movies/${id}`);
-          }}>
-            <InfoIcon />
-          </IconButton>
+          </div>
+          <div style={{width:"25%",margin:"1%",textAlign:"center",paddingTop:"5px"}}>
+          <Button  color="primary" aria-label="edit movie details"  onClick={(e) => {
+            history.push(`/EditMovies/${id}`);
+          }}><EditIcon/></Button>
+          </div>
+          </div>
         </Typography>
-      </CardContent>
+
+ 
 
       {/* uses chip to display year,genre,imdb */}
       <CardContent>
@@ -65,11 +71,20 @@ export function Movie({ deletebutton, name, poster, summary, year, genre, imdb, 
       {/* Display summary when button is clicked */}
       <CardContent>
         {/* <Typography paragraph onClick={()=>{setshow(!show);}}>Summary <ExpandMoreIcon/></Typography> */}
-        <div style={{ textAlign: "center" }}>
-          <IconButton color="primary" aria-label="show movie summary" onClick={() => { setshow(!show); }}>
+       <div style={{display:"flex",flexDirection:"row"}}>
+       <div style={{width:"50%",margin:"1%",textAlign:"center",paddingTop:"5px"}}>
+          <Button color="primary" aria-label="show movie summary"  onClick={() => { setshow(!show); }}>
             {summaryhead}
-          </IconButton>
+          </Button>
         </div>
+        <div style={{width:"50%",margin:"1%",textAlign:"center",paddingTop:"5px"}}>
+          <Button color="primary" aria-label="show movie details"  onClick={(e) => {
+            history.push(`/movies/${id}`);
+          }}>
+            <InfoIcon />
+          </Button>
+          </div>
+       </div>
         <br></br>
         <Typography paragraph style={summarystyle}>
           {summary}

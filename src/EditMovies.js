@@ -192,7 +192,13 @@ export function EditMovies({moviefind}) {
 
           // setmovielist([...movielist, { name: name, poster: poster, year: year, genre: genre, summary: summary, imdb: imdb, trailer: trailer }]);
           // history.push("/ShowMovies");
-          updatemovie();
+
+          
+          if(errors.name===undefined && errors.poster===undefined&& errors.year===undefined &&
+            errors.genre===undefined && errors.summary===undefined && errors.imdb===undefined && errors.trailer===undefined){
+              updatemovie();
+          }
+          
         }}>UPDATE MOVIE DETAILS</Button>
         <br></br>
       </div>

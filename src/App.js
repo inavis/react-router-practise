@@ -53,7 +53,14 @@ import { XOGAME } from './XOGAME';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { EditMovies } from './EditMovies';
+import { EditMovies,GetMovie } from './EditMovies';
+
+
+import { Formik,useFormik } from 'formik';
+import * as yup from 'yup';
+
+
+
 
 
 
@@ -113,6 +120,7 @@ const history2 = useHistory();
               <Button color="inherit" onClick={()=>{history.push("/colorgame")}}>Color Game</Button>
               <Button color="inherit" onClick={()=>{history.push("/xogame")}}>Tic-tac-toe</Button>
               <Button onClick={colorMode.toggleColorMode} color="inherit">{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}  {theme.palette.mode} </Button>
+              <Button color="inherit" onClick={()=>{history.push("/basicform")}}>Basic form</Button>
             </Toolbar>
         </AppBar>
        </div>
@@ -170,11 +178,15 @@ const history2 = useHistory();
          </Route>
 
          <Route path="/EditMovies/:id">
-           <EditMovies/>
+           <GetMovie/>
          </Route>
 
          <Route path="/xogame">
            <XOGAME/>
+         </Route>
+
+         <Route path="/basicform">
+           <BasicForm/>
          </Route>
 
          <Route exact path="/">
@@ -190,6 +202,97 @@ const history2 = useHistory();
    
     </Paper>
   );
+}
+
+
+
+
+//FORM  VALIDATION
+
+// const validateForm= (values)=>{
+//   console.log("onValidate values",values);
+
+//   //if any error it will be added
+//   const errors = {};
+
+
+//   //validate length of email
+//   if(values.email.length<5){
+//     errors.email="Please provide longer email"
+//   }
+
+//   //if email is in correct pattern
+//   if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+//     errors.email="Invalid email address"
+//   }
+
+//   //password of length 8 to 12
+//   if(values.password.length<8  ){
+//     errors.password="Password should be minimum 8 characters"
+//   }
+//   else if(values.password.length>12){
+//     errors.password="Password should be maximum 12 characters"
+//   }
+  
+//   console.log(errors)
+
+//   return errors;
+// }
+
+const validateForm =yup.object({
+  email:yup.string().min(5).
+                matches(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,"not of required pattern")
+                .required("It is mandatory field"),
+  password:yup.string().min(8,"Should have longer password")
+                    .max(12,"should have smaller passwords")
+                    .required("It is mandatory field")
+})
+function BasicForm(){
+
+//   const formik = useFormik({
+//     initialValues:{email:"abc@xyz.com",password:"iji"},
+//     validate:validateForm,
+//     onSubmit:(values) =>{
+//       console.log("On submit value",values)
+//     }
+// })
+
+//  changed by applying destructuring
+  const {handleSubmit,values,handleChange,handleBlur,touched,errors} = useFormik({
+      initialValues:{email:"abc@xyz.com",password:"iji"},
+      validationSchema:validateForm,
+      onSubmit:(values) =>{
+        console.log("On submit value",values)
+      }
+  })
+  return(
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input type="email" placeholder='Enter email'
+            id='email'
+            name='email'
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+        />
+        {/* {formik.errors.email} */}
+        
+        {/* touched is linked with onBlur propery so once touched becomes true and error is there it will display error */}
+        {touched.email && errors.email ? errors.email :""}
+
+        <input type="password" placeholder='Enter password'
+            id='password'
+            name='password'
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+        />
+        {touched.password && errors.password ? errors.password :""}
+
+        <button type='submit'>Submit</button>
+      </form>
+    </div>
+  )
 }
 
 export  function ToggleColorMode() {
